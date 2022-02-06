@@ -1,0 +1,190 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block body %}
+    <style>
+        .articles{
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.25);
+            padding: 16px 20px;
+        }
+
+        .articles h2 a{
+            color: black;
+        }
+        .articles h2 a:hover{
+            color:  #17a2b8;
+            transition: all 0.9s ease-in-out;
+        }
+
+        img{
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.25);
+            margin: 10px;
+        }
+        a,a:hover{
+            text-decoration: none;
+        }
+        .categories{
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.25);
+            background: #ffffff;
+            border-bottom: 1px solid #e2e2e2;
+            padding: 20px 10px;
+            margin-bottom: 30px;
+        }
+        .categories h4{
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #17a2b8;
+        }
+        .categories ul{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .categories ul li{
+            box-shadow: 0 4px 16px rgba(0,0,0,.25);
+            background: #4582EC;
+            margin-bottom: 3px;
+            padding: 5px 0;
+            border-radius: 2px;
+        }
+        .categories ul li a{
+            color: #ffffff;
+        }
+        .categories ul li:hover{
+            background: #17a2b8;
+            transition: all 0.3s ease-in-out;
+        }
+        .categories ul li span{
+           padding-left: 10px;
+        }
+        .last-posts{
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.25);
+            background: #ffffff;
+            border: 1px solid #e2e2e2;
+            padding: 20px 10px;
+
+        }
+        .last-posts h4{
+            text-align: center;
+        }
+        .last-posts ul{
+            list-style: none;
+            margin-top: 10px;
+            padding: 0;
+        }
+        .last-posts ul li{
+            box-shadow: 0 4px 16px rgba(0,0,0,.25);
+            margin-bottom: 10px;
+            border-bottom: 1px solid #17a2b8;
+        }
+        .last-posts ul li:first-child{
+            border-top: 1px solid #17a2b8;
+
+        }
+        .last-posts ul li:last-child{
+            border-bottom: 0;
+        }
+        .last-posts ul li .span-image{
+            float: left;
+            margin-left: 10px;
+        }
+        .last-posts ul li a{
+            color: #4582EC;
+        }
+        .last-posts ul li a:hover{
+            color: #d9534f;
+            transition: all 0.3s ease-in-out;
+        }
+
+        footer{
+            background: #ffffff;
+            border-top: 1px solid #e2e2e2;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+
+    </style>
+
+
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% for article in articles %}
+                    <section class="articles mt-5">
+
+                            <article class="mb-5">
+                               <h2><a href={{ path('article_show',{'id': article.id}) }}>{{ article.title }}</a></h2>
+                                    <div class="metadata">
+                                        published in {{ article.createdAt | date('d-m-Y')}} at {{ article.createdAt | date('H:i') }}
+                                        <span class="badge badge-danger">
+                                        {{ article.author.name }}
+                                        </span>
+                                        <span class="badge badge-danger">
+                                        {{ article.tag.name }}
+                                        </span>
+                                    </div>
+                                    <div class="content">
+                                       <a href={{ path('article_show',{'id': article.id}) }}> <img src="{{ article.image }}" alt=""></a>
+
+                                        <p>{% if article.content | length < 200 %} {{ article.content }}
+                                                {% else %}  {{ article.content | slice(0,200) }} ...
+                                            {% endif %}</p>
+                                        <a class="btn btn-info" href={{ path('article_show',{'id': article.id}) }}>Read More</a>
+                                        <a class="btn btn-info" href={{ path('article_like',{'id': article.id}) }}>Like</a>
+                                    </div>
+                            </article>
+
+                    </section>
+
+                {% endfor %}
+            </div>
+            <div class="col-md-4">
+                <div class="categories mt-5">
+                    <h4>Categories</h4>
+                    {% for tag in tags %}
+                    <ul>
+                        <li>
+                            <a href={{ path('category_articles',{'id': tag.id})}}>
+                               <!-- <span><i class="fas fa-tags"></i> </span> -->
+                                <span>{{ tag.name }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </div>
+                <div class="last-posts">
+                    <h4>Recently Published</h4>
+                    {% for article in rarticle|slice(0, 4) %}
+                    <ul>
+                        <li>
+                            <a href="{{ path('article_show',{'id': article.id}) }}">
+                                <span class="span-image">{% if article.content | length < 80 %} {{ article.content }}
+                                                {% else %}  {{ article.content | slice(0,80) }} ...
+                                    {% endif %}</span>
+                                <span ><img src="{{ article.image }}" alt="" style="width:200px; height: 70px"></span>
+
+                            </a>
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+    <footer>
+        <p>All Rights Are Save &copy; 2020</p>
+    </footer>
+    <div class="navigation mt-5">
+        {{ knp_pagination_render(articles) }}
+    </div>
+{% endblock %}

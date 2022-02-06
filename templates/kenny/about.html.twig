@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}About Kenny{% endblock %}
+{% block body %}
+    <style>
+        .container{
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.25);
+            padding: 16px 20px;
+            margin-top: 18px;
+        }
+        .container h4{
+            text-align: center;
+        }
+    </style>
+    <div class="container center">
+        <h4 style="padding-top: 20px" >About Kenny</h4>
+        <p>
+            Kenny is a web solution that allows posting articles. Readers can vote each article and the vote will score for the author.
+            Influencers is an online application. Users see on the first page the snipet of the posted articles in the descending order of posting and clicking on an article will show the entire article and it should display the nickname of the author. The article list page will show for each article the title, a limited number of characters from the text, the nickname of the author and the date.
+            </br>
+            Voting an article is allowed only once from a computer and the score will be counted for the author.
+            </br>
+            A top menu used to allow adding a new article or visualizing the ranking of the influencers.
+            </br>
+            An article have a title, content and tags.
+            </br></br>
+            - on the bottom of the article details page you can visualize snipets of articles with the same tags
+            </br>
+            - voting can be done from both, list of articles page and article details page
+            </br>
+            - image is added for each article
+            </br>
+            - a paginator will help to paginate articles
+            </br>
+            - edit your past articles (if article have no likes).
+            </br>
+            - an article will not be allowed to be eddited after receiving a vote (to not change the meaning of the article after receiving votes).
+            </br></br>
+
+
+
+
+        </p>
+    </div>
+{% endblock %}
